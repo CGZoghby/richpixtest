@@ -45,7 +45,7 @@ $(document).ready(function () {
     //initialize localDatabase for pulling all firebase info
     //initialize currentLocation for storing lat and lng
     var localDatabase = [],
-        currentLocation = {},
+        currentLocation = {};
 
     // Satellite
 
