@@ -8,6 +8,7 @@ $(document).ready(function () {
         storageBucket: "rich-pix-3d31b.appspot.com",
         messagingSenderId: "278100621922"
     };
+
     firebase.initializeApp(config);
 
     var uiConfig = {
@@ -18,15 +19,8 @@ $(document).ready(function () {
             firebase.auth.EmailAuthProvider.PROVIDER_ID,
         ],
         // Terms of service url.
-        tosUrl: '<your-tos-url>'
+        tosUrl: 'https://cgzoghby.github.io/richpixtest/tos.html'
     };
-
-    // Initialize the FirebaseUI Widget using Firebase.
-    var ui = new firebaseui.auth.AuthUI(firebase.auth());
-    // The start method will wait until the DOM is loaded.
-    if (ui.isPendingRedirect()) {
-        ui.start('#firebaseui-auth-container', uiConfig);
-      }
 
     var database = firebase.database();
 
@@ -95,6 +89,11 @@ $(document).ready(function () {
     L.easyButton(
         "fa-sign-in", function () {
             $("#loginModal").modal("show");
+            var ui = new firebaseui.auth.AuthUI(firebase.auth());
+            // The start method will wait until the DOM is loaded.
+            if (ui.isPendingRedirect()) {
+                ui.start('#firebaseui-auth-container', uiConfig);
+            }
         },
         'Login to enable saving and filtering pins by username'
     ).addTo(map);
