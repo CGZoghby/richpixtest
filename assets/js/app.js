@@ -22,6 +22,8 @@ $(document).ready(function () {
         tosUrl: 'https://cgzoghby.github.io/richpixtest/tos.html'
     };
 
+    var ui = new firebaseui.auth.AuthUI(firebase.auth());
+
     var database = firebase.database();
 
     // Add Map Tiles
@@ -89,7 +91,6 @@ $(document).ready(function () {
     L.easyButton(
         "fa-sign-in", function () {
             $("#loginModal").modal("show");
-            var ui = new firebaseui.auth.AuthUI(firebase.auth());
             // The start method will wait until the DOM is loaded.
             if (ui.isPendingRedirect()) {
                 ui.start('#firebaseui-auth-container', uiConfig);
