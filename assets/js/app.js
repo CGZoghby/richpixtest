@@ -1,6 +1,4 @@
 $(document).ready(function () {
-
-
     // Initialize Firebase
     var config = {
         apiKey: "AIzaSyB4cTN64B5PSWyyzwTzXkoLFmioF-ry-o4",
@@ -11,6 +9,24 @@ $(document).ready(function () {
         messagingSenderId: "278100621922"
     };
     firebase.initializeApp(config);
+
+    var uiConfig = {
+        signInSuccessUrl: 'https://cgzoghby.github.io/richpixtest/index.html',
+        signInOptions: [
+            // Leave the lines as is for the providers you want to offer your users.
+            firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+            firebase.auth.EmailAuthProvider.PROVIDER_ID,
+        ],
+        // Terms of service url.
+        tosUrl: '<your-tos-url>'
+    };
+
+    // Initialize the FirebaseUI Widget using Firebase.
+    var ui = new firebaseui.auth.AuthUI(firebase.auth());
+    // The start method will wait until the DOM is loaded.
+    if (ui.isPendingRedirect()) {
+        ui.start('#firebaseui-auth-container', uiConfig);
+      }
 
     var database = firebase.database();
 
@@ -58,11 +74,7 @@ $(document).ready(function () {
         maxZoom: 18,
         minZoom: 5,
         attribution: 'Map tiles by Carto, under CC BY 3.0. Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a>',
-
-
     })
-
-
 
     var map = L.map('map', {
         layers: [mapBox]
@@ -162,12 +174,13 @@ $(document).ready(function () {
         //setView will be called, initially just creates a view of greater richmond area
         map.setView([e.latlng.lat, e.latlng.lng], 12);
         currentLocation = e.latlng;
-        console.log(currentLocation);
     };
     // Functions to filter by time and distance
 
     function filterByDistance() {
         //filter by Distance will only show "pins" within 1 mile of users location
+
+
     };
 
     function filterByDate() {
