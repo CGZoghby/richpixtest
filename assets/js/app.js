@@ -14,18 +14,6 @@ $(document).ready(function () {
     });
 
     firebase.initializeApp(config);
-    var ui = new firebaseui.auth.AuthUI(Firebase.auth());
-    var uiConfig = {
-        signInSuccessUrl: 'https://cgzoghby.github.io/richpixtest/index.html',
-        signInOptions: [
-            // Leave the lines as is for the providers you want to offer your users.
-            firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-            firebase.auth.EmailAuthProvider.PROVIDER_ID,
-        ],
-        // Terms of service url.
-        tosUrl: 'https://cgzoghby.github.io/richpixtest/tos.html',
-        'signInFlow': 'popup'
-    };
 
     var database = firebase.database();
 
@@ -57,7 +45,7 @@ $(document).ready(function () {
             'Imagery © <a href="http://mapbox.com">Mapbox</a>',
         id: 'mapbox.satellite'
 
-    })
+    });
 
     // Dark
     var night = L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}.png', {
