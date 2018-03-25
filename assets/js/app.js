@@ -1,4 +1,6 @@
 $(document).ready(function () {
+
+
     // Initialize Firebase
     var config = {
         apiKey: "AIzaSyB4cTN64B5PSWyyzwTzXkoLFmioF-ry-o4",
@@ -8,16 +10,13 @@ $(document).ready(function () {
         storageBucket: "rich-pix-3d31b.appspot.com",
         messagingSenderId: "278100621922"
     };
-
-    firebase.auth().onAuthStateChanged(function (user) {
-        window.user = user; // user is undefined if no user signed in
-    });
-
     firebase.initializeApp(config);
 
     var database = firebase.database();
 
     // Add Map Tiles
+
+
     var mapBox = L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
         maxZoom: 18,
         minZoom: 3,
@@ -25,7 +24,10 @@ $(document).ready(function () {
             '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
             'Imagery © <a href="http://mapbox.com">Mapbox</a>',
         id: 'mapbox.streets'
-    });
+    })
+
+
+
 
     //load child pins that are saved into firebase
     //load firebase data and save it into an object, edit data from the object, that way we do not edit the raw
@@ -33,7 +35,8 @@ $(document).ready(function () {
     //initialize localDatabase for pulling all firebase info
     //initialize currentLocation for storing lat and lng
     var localDatabase = [],
-        currentLocation = {};
+        currentLocation = {},
+        provider = new firebase.auth.GoogleAuthProvider();
 
     // Satellite
 
@@ -45,26 +48,34 @@ $(document).ready(function () {
             'Imagery © <a href="http://mapbox.com">Mapbox</a>',
         id: 'mapbox.satellite'
 
-    });
+    })
+
 
     // Dark
+
+
     var night = L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}.png', {
         maxZoom: 18,
         minZoom: 5,
         attribution: 'Map tiles by Carto, under CC BY 3.0. Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a>',
+
+
     })
+
+
 
     var map = L.map('map', {
         layers: [mapBox]
 
     });
 
+    var marker;
+
     var baseLayers = {
         "Street Map": mapBox,
         "Satellite": satellite,
         "Night": night
     }
-
     //Drop leaflet custom method (L.easybutton) to create login button
     //When you push the (identified by a soon-to-be-useful icon) login square, a modal will display
     //asking if you would like to login. If you would not, simply clicking no thank you closes the modal.
@@ -72,10 +83,6 @@ $(document).ready(function () {
     L.easyButton(
         "fa-sign-in", function () {
             $("#loginModal").modal("show");
-            // The start method will wait until the DOM is loaded.
-            if (ui.isPendingRedirect()) {
-                ui.start('#firebaseui-auth-container', uiConfig);
-            }
         },
         'Login to enable saving and filtering pins by username'
     ).addTo(map);
@@ -84,6 +91,12 @@ $(document).ready(function () {
     //form submission
 
     L.control.layers(baseLayers).addTo(map);
+
+    // Variable for the pin that's being selected to delete
+    var selectedPin;
+
+    // Functions 
+    // ======================================================================================================================
 
     // Functions 
     // ======================================================================================================================
@@ -149,6 +162,7 @@ $(document).ready(function () {
         //setView will be called, initially just creates a view of greater richmond area
         map.setView([e.latlng.lat, e.latlng.lng], 12);
         currentLocation = e.latlng;
+        console.log(currentLocation);
     };
     // Functions to filter by time and distance
 
@@ -182,8 +196,19 @@ $(document).ready(function () {
                     `Lat: ${childLat}<br>Lng: ${childLng}<br>Date: ${childDate}`
                 )
                 .addTo(map);
+
         });
+
+
+
+
+
     };
+
+
+
+
+
     // #Main Process
     // ======================================================================================================================
 
@@ -194,7 +219,12 @@ $(document).ready(function () {
         setView: true,
         maxZoom: 18
     });
+    // getPins();
+
+
     //The geocoding is inside this click event, so it will not happen unless the user clicks the "Share Your POV" button.
+
+
     $("#drop-pin").on("click", function () {
         event.preventDefault();
         map.on('locationfound', onLocationFound);
@@ -209,6 +239,7 @@ $(document).ready(function () {
     //this runs on first page load to find phone
     //save the data from this locate into global vars, then pass that into the modal.
     map.on('locationfound', locatePhone);
+
 
     //create a global capture for active/current location, set it, show modal, and use that global var, then
     //pass that data to firebase. Using global capture allows for me to avoid generating multiple instances like when
@@ -237,14 +268,10 @@ $(document).ready(function () {
         $("#captionModal").modal("hide");
     });
 
-    $("#loginAdd").on("click", function (event) {
+    $("#loginAdd").on("click", function () {
         event.preventDefault();
-        event.stopPropagation();
         var loginEmail = $("#loginEmail").val().trim();
         var loginPassword = $("#loginPassword").val().trim();
-        var credential = firebase.auth.EmailAuthProvider.credential(email, password);
-        var auth = firebase.auth();
-        var currentUser = auth.currentUser;
         firebase.auth().signInWithEmailAndPassword(loginEmail, loginPassword).catch(function (error) {
             // Handle Errors here.
             var errorCode = error.code;
@@ -353,9 +380,17 @@ $(document).ready(function () {
 
         navigator.mediaDevices.getUserMedia(constraints).
             then(handleSuccess).catch(handleError);
+
     });
+
     // END CAMERA TESTING =================================================================================
+
     $("#time-filter").on("click", function () {
+
+        // map.removeLayer(marker);  this does not work here - scope issue?
+
         filterByDate();
+
+
     });
 });
