@@ -282,13 +282,6 @@ $(document).ready(function () {
             console.log(`${errorCode} ${errorMessage}`);
             // ...
         });
-        var currentUser = firebase.auth().currentUser;
-        currentUser.sendEmailVerification().then(function() {
-            // Email sent.
-          }).catch(function(error) {
-            // An error happened.
-            console.log(error);
-          });
     });
 
     function onSignIn(googleUser) {
