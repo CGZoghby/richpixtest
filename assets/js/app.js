@@ -271,8 +271,9 @@ $(document).ready(function () {
         $("#captionModal").modal("hide");
     });
 
-    $("#loginAdd").on("click", function () {
+    $("#loginAdd").on("click", function (event) {
         event.preventDefault();
+        event.stopPropagation();
         var loginEmail = $("#loginEmail").val().trim();
         var loginPassword = $("#loginPassword").val().trim();
         firebase.auth().signInWithEmailAndPassword(loginEmail, loginPassword).catch(function (error) {
@@ -281,6 +282,14 @@ $(document).ready(function () {
             var errorMessage = error.message;
             // ...
         });
+        var credential = firebase.auth.EmailAuthProvider.credential(loginEmail, loginPassword);
+        var auth = firebase.auth();
+        var currentUser = auth.currentUser;
+        currentUser.sendEmailVerification().then(function() {
+            // Email sent.
+          }).catch(function(error) {
+            // An error happened.
+          });
     });
 
     function onSignIn(googleUser) {
