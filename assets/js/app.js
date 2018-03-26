@@ -20,6 +20,9 @@ $(document).ready(function () {
         $("#loginModal").modal("hide");
         console.log(window.user.email);
         console.log(window.user.uid);
+        if (window.user.email != undefined) {
+            getPins();
+        };
     });
 
     // Add Map Tiles
@@ -111,7 +114,7 @@ $(document).ready(function () {
 
 
     //load child pins that are saved into firebase
-    // function getPins() {
+    function getPins() {
     database
         .ref("/connections")
         .on("child_added", function (childSnapshot) {
@@ -136,6 +139,7 @@ $(document).ready(function () {
             map.addLayer(marker);
             // map.removeLayer(marker); this works here 
         });
+    };
     // select pin, click delete and will show the pin you selected to delete in console, refresh page then key is gone
     $("#delete-pin").on("click", function () {
         console.log(selectedPin);
