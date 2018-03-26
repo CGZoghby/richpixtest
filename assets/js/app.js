@@ -168,8 +168,6 @@ $(document).ready(function () {
 
     function filterByDistance() {
         //filter by Distance will only show "pins" within 1 mile of users location
-
-
     };
 
     function filterByDate() {
@@ -380,6 +378,8 @@ $(document).ready(function () {
 
         navigator.mediaDevices.getUserMedia(constraints).
             then(handleSuccess).catch(handleError);
+
+
 
     });
 
