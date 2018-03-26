@@ -14,6 +14,11 @@ $(document).ready(function () {
 
     var database = firebase.database();
 
+    firebase.auth().onAuthStateChanged(function (user) {
+        window.user = user; // user is undefined if no user signed in
+        $("#noLogin").html("Log Out");
+    });
+
     // Add Map Tiles
 
 
