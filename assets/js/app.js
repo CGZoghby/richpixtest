@@ -279,15 +279,15 @@ $(document).ready(function () {
             // Handle Errors here.
             var errorCode = error.code;
             var errorMessage = error.message;
+            console.log(`${errorCode} ${errorMessage}`);
             // ...
         });
-        var credential = firebase.auth.EmailAuthProvider.credential(loginEmail, loginPassword);
-        var auth = firebase.auth();
-        var currentUser = auth.currentUser;
+        var currentUser = firebase.auth().currentUser;
         currentUser.sendEmailVerification().then(function() {
             // Email sent.
           }).catch(function(error) {
             // An error happened.
+            console.log(error);
           });
     });
 
