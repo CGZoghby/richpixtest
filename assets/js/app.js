@@ -271,9 +271,8 @@ $(document).ready(function () {
         $("#captionModal").modal("hide");
     });
 
-    $("#loginAdd").on("click", function (event) {
+    $("#loginAdd").on("click", function () {
         event.preventDefault();
-        event.stopPropagation();
         var loginEmail = $("#loginEmail").val().trim();
         var loginPassword = $("#loginPassword").val().trim();
         firebase.auth().signInWithEmailAndPassword(loginEmail, loginPassword).catch(function (error) {
