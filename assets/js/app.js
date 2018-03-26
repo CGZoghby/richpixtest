@@ -16,8 +16,10 @@ $(document).ready(function () {
 
     firebase.auth().onAuthStateChanged(function (user) {
         window.user = user; // user is undefined if no user signed in
-        $("#noLogin").html("Log Out");
-        console.log(window.user);
+        $("#noLogin").text("Log Out");
+        $("#loginModal").modal("hide");
+        console.log(window.user.email);
+        console.log(window.user.uid);
     });
 
     // Add Map Tiles
@@ -283,7 +285,6 @@ $(document).ready(function () {
             console.log(`${errorCode} ${errorMessage}`);
             // ...
         });
-        $("loginModal").modal("hide");
     });
 
     function onSignIn(googleUser) {
