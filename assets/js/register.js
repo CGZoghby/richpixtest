@@ -26,12 +26,17 @@ $(document).ready(function () {
                 // Handle Errors here.
                 var errorCode = error.code;
                 var errorMessage = error.message;
+                console.log(`${errorCode} ${error.message}`);
                 // ...
             });
         }
         catch (err) {
             alert("Please " + err)
         }
+    });
+
+    exports.sendWelcomeEmail = functions.auth.user().onCreate((event) => {
+        //email sent?
     });
 
 });
